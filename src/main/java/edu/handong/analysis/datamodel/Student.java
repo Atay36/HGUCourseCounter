@@ -23,7 +23,7 @@ public class Student {
 	}
 	
 	public int getNumCourseInNthSementer(int semester) {
-		return coursesTaken.size();
+		return coursesTaken.size();	//아닐거같
 	}
 	
 	
