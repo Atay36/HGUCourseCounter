@@ -19,11 +19,11 @@ public class Student {
 	}
 	
 	public HashMap<String,Integer> getSemestersByYearAndSemester(){
-		
+		return semestersByYearAndSemester;
 	}
 	
 	public int getNumCourseInNthSementer(int semester) {
-		
+		return coursesTaken.size();
 	}
 	
 	

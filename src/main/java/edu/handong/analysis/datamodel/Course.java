@@ -16,4 +16,8 @@ public class Course {
 	
 	
 	}
+	
+	public int getSemesterCourseTaken (int num) {
+		return num;
+	}
 }
