@@ -7,10 +7,10 @@ import java.util.TreeMap;
 
 import edu.handong.analysis.datamodel.Course;
 import edu.handong.analysis.datamodel.Student;
-import edu.handong.analysise.utils.NotEnoughArgumentException;
-import edu.handong.analysise.utils.Utils;
+import edu.handong.analysis.utils.NotEnoughArgumentException;
+import edu.handong.analysis.utils.Utils;
 
-public class HGUCoursePatternAnalyzer {
+public class HGUCoursePatternAnalyzer extends Exception {
 
 	private HashMap<String,Student> students;
 	
@@ -54,9 +54,32 @@ public class HGUCoursePatternAnalyzer {
 	 */
 	private HashMap<String,Student> loadStudentCourseRecords(ArrayList<String> lines) {
 		
+		HashMap<String,Student> data1 = new HashMap<String,Student>();
+		ArrayList<String> courses = new ArrayList<String>();
+		//Student students = new Student(CourseName);
+		
+		int count = 0;
+		for(String line:lines) {
+			String CourseName = line.split(",")[1].trim();
+			String StudentName = line.split(",")[2].trim();
+
+			//Student newStudent = new Student(CourseName);
+			//if(!studentExist(students,newStudent))
+			courses.add(CourseName);
+			//data1(CourseName,)
+			Student students = new Student(StudentName);
+			data1.put (StudentName,students);
+
+
+		}
+		
+		
+//		lines = 
+//		data1.compute(Course, remappingFunction)
+		
 		// TODO: Implement this method
 		
-		return null; // do not forget to return a proper variable.
+		return data1; // do not forget to return a proper variable.
 	}
 
 	/**
@@ -75,7 +98,15 @@ public class HGUCoursePatternAnalyzer {
 	private ArrayList<String> countNumberOfCoursesTakenInEachSemester(Map<String, Student> sortedStudents) {
 		
 		// TODO: Implement this method
+		ArrayList<String> number = new ArrayList<String>();
+		int num=0;
+	
+//		for(Student student: students) {
+//			if(sortedStudents.get()==N)
+//			System.out.println(student.getName());
+//		}
+
 		
-		return null; // do not forget to return a proper variable.
+		return number; // do not forget to return a proper variable.
 	}
 }

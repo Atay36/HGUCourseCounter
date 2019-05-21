@@ -26,5 +26,13 @@ public class Student {
 		return coursesTaken.size();	//아닐거같
 	}
 	
+	public String setStudentId(String studentName){
+		return studentId = studentName ;
+	}
+	
+	public String getStudentId(){
+		return studentId;
+	}
+	
 	
 }
