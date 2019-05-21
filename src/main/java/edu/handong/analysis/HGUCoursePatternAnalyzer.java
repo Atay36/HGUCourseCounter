@@ -58,24 +58,24 @@ public class HGUCoursePatternAnalyzer extends Exception {
 		ArrayList<String> courses = new ArrayList<String>();
 		//Student students = new Student(CourseName);
 		
-		int count = 0;
+	//	int count = 0;
 		for(String line:lines) {
-			String CourseName = line.split(",")[1].trim();
-			String StudentName = line.split(",")[2].trim();
-
-			//Student newStudent = new Student(CourseName);
-			//if(!studentExist(students,newStudent))
-			courses.add(CourseName);
-			//data1(CourseName,)
-			Student students = new Student(StudentName);
-			data1.put (StudentName,students);
-
-
+			String ID = line.split(",")[0].trim();
+			
+			Student student = new Student(ID);
+			
+			if(data1.containsKey(ID)==false) {
+			
+			data1.put(ID,student);
+			
+			}
+			
+			Course course = new Course(line);
+			
+			student.addCourse(course);
+			
+			
 		}
-		
-		
-//		lines = 
-//		data1.compute(Course, remappingFunction)
 		
 		// TODO: Implement this method
 		
