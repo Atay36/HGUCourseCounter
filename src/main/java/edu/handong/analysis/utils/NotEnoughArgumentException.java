@@ -11,10 +11,7 @@ public class NotEnoughArgumentException extends Exception {
 	public NotEnoughArgumentException(String message) {
 		
 		System.out.println (message);
-
 		
 	}
 	
-
-
 }

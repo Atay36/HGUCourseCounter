@@ -59,7 +59,6 @@ public class HGUCoursePatternAnalyzer extends Exception {
 		Student student;
 		
 		
-	//	int count = 0;
 		for(String line:lines) {
 			String ID = line.split(",")[0].trim();
 			

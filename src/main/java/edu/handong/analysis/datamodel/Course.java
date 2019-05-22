@@ -22,7 +22,6 @@ public class Course {
 		courseCredit = line.split(",")[6].trim();
 		yearTaken = Integer.parseInt(line.split(",")[7].trim());
 		semesterCourseTaken = Integer.parseInt(line.split(",")[8].trim());
-
 	}
 	
 	public String getstudentId () {

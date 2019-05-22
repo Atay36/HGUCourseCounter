@@ -64,8 +64,6 @@ public class Student {
 				count++;
 		}
 		
-		
-		
 		return count;	
 	}
 	
