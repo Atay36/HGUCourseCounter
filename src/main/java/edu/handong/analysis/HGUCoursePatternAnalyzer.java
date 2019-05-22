@@ -56,18 +56,22 @@ public class HGUCoursePatternAnalyzer extends Exception {
 		
 		HashMap<String,Student> data1 = new HashMap<String,Student>();
 		ArrayList<String> courses = new ArrayList<String>();
-		//Student students = new Student(CourseName);
+		Student student;
+		
 		
 	//	int count = 0;
 		for(String line:lines) {
 			String ID = line.split(",")[0].trim();
 			
-			Student student = new Student(ID);
 			
 			if(data1.containsKey(ID)==false) {
+				student = new Student(ID);
 			
-			data1.put(ID,student);
+				data1.put(ID,student);
 			
+			} else {
+				student = data1.get(ID);
+				
 			}
 			
 			Course course = new Course(line);
@@ -99,12 +103,23 @@ public class HGUCoursePatternAnalyzer extends Exception {
 		
 		// TODO: Implement this method
 		ArrayList<String> number = new ArrayList<String>();
-		int num=0;
 	
-//		for(Student student: students) {
-//			if(sortedStudents.get()==N)
-//			System.out.println(student.getName());
-//		}
+		for(Student student: sortedStudents.values()) {
+			
+			Map<String, Integer> Semesters = new TreeMap<String, Integer>(student.getSemestersByYearAndSemester());
+
+			Integer lastSemester = Semesters.values().size();
+			
+			for( Integer NthSemester : Semesters.values() ) {
+				
+				String add = new String();
+				add = student.getStudentId() + "," + Integer.toString(lastSemester) + "," + Integer.toString(NthSemester) + "," + student.getNumCourseInNthSementer(NthSemester);
+				
+				number.add(add);
+				
+			}
+		
+		}
 
 		
 		return number; // do not forget to return a proper variable.

@@ -12,18 +12,61 @@ public class Student {
 	                                                         // e.g., 2003-1, 
 	public Student(String studentId) { // constructor
 	
-	}
-	
-	public void addCourse(Course newRecord) {
+		this.setStudentId(studentId);
+		coursesTaken = new ArrayList<Course>();
+		semestersByYearAndSemester = new HashMap<String,Integer>();
 		
 	}
 	
+	public void addCourse(Course newRecord) {
+		coursesTaken.add(newRecord);
+	}
+	
 	public HashMap<String,Integer> getSemestersByYearAndSemester(){
+		
+		int count = 1;
+		
+		for(Course course : coursesTaken) {
+			String add = new String();
+			
+			add = Integer.toString(course.getyearTaken()) + "-" + Integer.toString(course.getSemesterCourseTaken());
+			
+			
+			if(semestersByYearAndSemester.containsKey(add)==false) {
+				semestersByYearAndSemester.put(add, count++);
+			} else continue;
+
+		}
+		
+		
+		
 		return semestersByYearAndSemester;
 	}
 	
 	public int getNumCourseInNthSementer(int semester) {
-		return coursesTaken.size();	//아닐거같
+		
+		int count =0;
+		
+		String number = new String();
+		String add = new String();
+		
+		for(String N : semestersByYearAndSemester.keySet()) {
+			if(semestersByYearAndSemester.get(N).intValue() == semester) {
+				number = N;
+				break;
+			}
+		}
+		
+		for(Course course : coursesTaken) {
+			add = Integer.toString(course.getyearTaken()) + "-" + Integer.toString(course.getSemesterCourseTaken());
+			
+			if(add.equals(number))
+				count++;
+		}
+		
+		
+		
+		return count;	
 	}
 	
 	public String setStudentId(String studentName){

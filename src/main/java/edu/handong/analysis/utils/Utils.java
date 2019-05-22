@@ -22,6 +22,8 @@ public class Utils {
 		    br = new BufferedReader(new FileReader(file));
 		    String s;
 
+			if (removeHeader) br.readLine();		
+
 		    while ((s = br.readLine()) != null) {
 		     bizList.add(s);
 		    }
@@ -34,24 +36,26 @@ public class Utils {
 		  }
 
 		  return bizList;
-		 //return null; // 임시방편 
 	}
 	
 	public static void writeAFile(ArrayList<String> lines, String targetFileName) {
 		
 		try{
-            //파일 객체 생성
             File file = new File(targetFileName);
             BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file));
             
             if(file.isFile() && file.canWrite()){
-                //쓰기
-                bufferedWriter.write(lines.toString());
-                bufferedWriter.write(",");
-
-                //개행문자쓰기
+            	
+                bufferedWriter.write("studentID" + "," + "TotalNumberOfSemestersRegistered" + "," + "Semester" + "," + "NumCoursesTakenInTheSemester");
                 bufferedWriter.newLine();
-                bufferedWriter.write("문자열 추가2");
+
+                //쓰기
+        		for(String line:lines) {
+
+                bufferedWriter.write(line.toString());
+
+                bufferedWriter.newLine();
+        		}
                 
                 bufferedWriter.close();
             }
