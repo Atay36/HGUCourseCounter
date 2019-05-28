@@ -10,7 +10,7 @@ public class NotEnoughArgumentException extends Exception {
 	
 	public NotEnoughArgumentException(String message) {
 		
-		System.out.println (message);
+		System.out.println ("The file path does not exist. Please check your CLI argument!");
 		
 	}
 	
