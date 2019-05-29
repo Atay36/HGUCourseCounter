@@ -56,9 +56,7 @@ public class HGUCoursePatternAnalyzer extends Exception {
 			}
 			
 		}
-		else
-		{
-			System.out.println("asdfasdf");
+		else{
 			System.exit(0);
 		}
 		try {
@@ -90,6 +88,11 @@ public class HGUCoursePatternAnalyzer extends Exception {
 			// Write a file (named like the value of resultPath) with linesTobeSaved.
 			Utils.writeAFile(linesToBeSaved, resultPath);
 		} else if(analysis.equals("2")) {
+			if(coursecode==null) {
+				printHelp(option);
+				System.exit(0);
+				
+			}
 			//newthing~
 			// Generate result lines to be saved.
 			ArrayList<Persent> HW6 = loadHW6(lines);
@@ -282,7 +285,7 @@ private ArrayList<String> writeHW6(ArrayList<Persent> data) {
 			float p =0;
 			
 			if(test.getstudentNumber().equals("0")==false && test.gettotalNumber().equals("0")==false ) {
-				System.out.println("ok" + test.getstudentNumber() +"," +test.gettotalNumber());
+				//System.out.println("ok" + test.getstudentNumber() +"," +test.gettotalNumber());
 				p = (float)(Integer.parseInt(test.getstudentNumber())) 
 					/(float)(Integer.parseInt(test.gettotalNumber()))
 					*100;
@@ -388,9 +391,9 @@ private ArrayList<String> writeHW6(ArrayList<Persent> data) {
 	private void printHelp(Options options) {
 		// automatically generate the help statement
 		HelpFormatter formatter = new HelpFormatter();
-		String header = "CLI test program";
-		String footer ="\nPlease report issues at https://github.com/lifove/CLIExample/issues";
-		formatter.printHelp("CLIExample", header, options, footer, true);
+		String header = "HGU Course Analyzer";
+		String footer ="";
+		formatter.printHelp("HGUCourseCounter", header, options, footer, true);
 	}
 
 }
