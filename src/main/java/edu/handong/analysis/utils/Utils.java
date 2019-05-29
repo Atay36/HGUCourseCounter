@@ -27,6 +27,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class Utils {
@@ -114,9 +115,20 @@ public class Utils {
 	
 	public static void writeAFile(ArrayList<String> lines, String targetFileName) {
 
-    	System.out.print("writeAFile");
+    	//System.out.print("writeAFile");
+		Path path = Paths.get(targetFileName);
+		File parentDir = path.toFile().getParentFile();
+		if (!parentDir.exists()) {
+			try {
+				parentDir.mkdirs();
+			}
+			catch(Exception e) {
+				System.out.println(e.getMessage());
+			}
+		}
+		File file = new File(targetFileName);
 		try{
-            File file = new File(targetFileName);
+      
             BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file));
             
             if(file.isFile() && file.canWrite()){
@@ -132,8 +144,8 @@ public class Utils {
         		for(String line:lines) {
 
                 bufferedWriter.write(line.toString());
-
                 bufferedWriter.newLine();
+                
         		}
                 
                 bufferedWriter.close();
