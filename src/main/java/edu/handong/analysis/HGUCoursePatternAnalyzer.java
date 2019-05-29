@@ -2,8 +2,10 @@ package edu.handong.analysis;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
 
 import org.apache.commons.cli.CommandLine;
@@ -15,8 +17,15 @@ import org.apache.commons.cli.Options;
 
 import edu.handong.analysis.datamodel.Course;
 import edu.handong.analysis.datamodel.Student;
+import edu.handong.analysis.datamodel.Persent;
+
 import edu.handong.analysis.utils.NotEnoughArgumentException;
 import edu.handong.analysis.utils.Utils;
+
+import java.net.*;
+import java.text.DecimalFormat;
+import java.io.*;
+import java.util.*;
 
 public class HGUCoursePatternAnalyzer extends Exception {
 	
@@ -83,7 +92,10 @@ public class HGUCoursePatternAnalyzer extends Exception {
 		} else if(analysis.equals("2")) {
 			//newthing~
 			// Generate result lines to be saved.
-			loadHW6(lines);
+			ArrayList<Persent> HW6 = loadHW6(lines);
+			ArrayList<String> HW6write = writeHW6(HW6);
+			Utils.writeAFile(HW6write, resultPath);
+
 			}
 	}
 	
@@ -126,20 +138,19 @@ public class HGUCoursePatternAnalyzer extends Exception {
 		return data1; // do not forget to return a proper variable.
 	}
 	
-private HashMap<String,Student> loadHW6(ArrayList<String> lines) {
+private ArrayList<Persent> loadHW6(ArrayList<String> lines) {
 		
-		HashMap<String,Student> data1 = new HashMap<String,Student>();
 		HashMap<String,Integer> numberOfStudent = new HashMap<String,Integer>();
 		HashMap<String,Integer> totalNumberOfStudent = new HashMap<String,Integer>();
+		HashMap<Integer,Integer> totalNumberAndStudentNumber = new HashMap<Integer,Integer>();
+		ArrayList<Persent> persents = new ArrayList<Persent>();
 
 		String yearAndSemester = "";
 		String courseAndSemester = "";
+		String courseName = new String();
 
 		int countTotal =0;
-		int countThis =1;
 		int count = 0;
-		int year;
-		int semester;
 
 		String ID="";
 		ArrayList<Course> courses = new ArrayList<Course>();
@@ -147,37 +158,9 @@ private HashMap<String,Student> loadHW6(ArrayList<String> lines) {
 		
 		
 		for(String line:lines) {
-//			String ID = line.split(",")[0].trim();
-			
-//			
-//			if(data1.containsKey(ID)==false) {
-//				student = new Student(ID);
-//			
-//				data1.put(ID,student);
-//			
-//			} else {
-//				student = data1.get(ID);
-//				
-//			}
-			
+
 			Course course = new Course(line);
-			/*
-			if(yearAndSemester.equals("")) {
-				yearAndSemester = course.getyearTaken() + "-" +course.getSemesterCourseTaken();
-			}else if(yearAndSemester .equals( course.getyearTaken() + "-" +course.getSemesterCourseTaken())==false) {
-				System.out.println(countTotal);
-				numberOfStudent.put(yearAndSemester, countTotal);
-				countTotal = 1;
-				yearAndSemester = course.getyearTaken() + "-" +course.getSemesterCourseTaken(); 
-			} else if(ID.equals("")){
-				countTotal++;
-			}
-			*/
-			
 			courses.add(course);
-			
-//			student.addCourse(course);
-			
 			
 		}
 		
@@ -185,57 +168,44 @@ private HashMap<String,Student> loadHW6(ArrayList<String> lines) {
 		for(int i=Integer.parseInt(startyear);i<=Integer.parseInt(endyear);i++) {
 			for(int j =1 ; j<=4; j++) {
 				for(Course test : courses) {
-					//System.out.println(test.getcourseCode() + "," + test.getyearTaken() + "," + test.getSemesterCourseTaken());
-					//System.out.println(coursecode + "," + i + "," + j);
-					//countTotal++;
+
 					if(test.getyearTaken()==i && test.getSemesterCourseTaken() == j) {
 						if(test.getcourseCode().equals(coursecode)) {
 							count++;
+							courseName = test.getcourseName();
 						}
 						if(ID.equals(test.getstudentId())==false) {
 							countTotal++;
 						}
 						ID=test.getstudentId();
 					}
-				} numberOfStudent.put(i + "," + j, count);
+				}
+				Persent persent = new Persent();
+
+				persent.setyearTaken(i);
+				persent.setSemesterCourseTaken(j);
+				persent.setstudentNumber(Integer.toString(count));
+				persent.settotalNumber(Integer.toString(countTotal));
+				persent.setcourseCode(coursecode);
+				persent.setcourseName(courseName);
+				
+				persents.add(persent);
+				/*
+				numberOfStudent.put(i + "," + j, count);
 				totalNumberOfStudent.put(i + "," + j, countTotal);
+				totalNumberAndStudentNumber.put(count,countTotal);
 				System.out.println(i + "," + j +","+ count);
 				System.out.println(i + "," + j +","+ countTotal);
+				*/
 				count = 0;
 				countTotal = 0;
 				
 			}
 		}
-		
-		for(Course test : courses ) {
-			
-		}
-			
-		
-		
-		
-		/*
-		for(Course test : courses) {
-			for(int i=Integer.parseInt(startyear);i<=Integer.parseInt(endyear);i++) {
-				if(test.getyearTaken()!=i){
-					continue;
-				}
-				for(int j =1 ; j<=4; j++) {
-					if(test.getSemesterCourseTaken()!=j) {
-						continue;
-					} else if(test.getcourseCode().equals(coursecode)){
-						count++;
-					}
-				}
-			}
-			year = test.getyearTaken();
-			
-		}
-		*/
-		
+
 		// TODO: Implement this method
 		
-		return data1; // do not forget to return a proper variable.
+		return persents; // do not forget to return a proper variable.
 	}
 
 	/**
@@ -275,6 +245,64 @@ private HashMap<String,Student> loadHW6(ArrayList<String> lines) {
 
 		
 		return number; // do not forget to return a proper variable.
+	}
+	
+private ArrayList<String> writeHW6(ArrayList<Persent> data) {
+		
+		// TODO: Implement this method
+		//Set<Integer> studentNumber = data.keySet();
+//		Collection studentNumber = data.keySet();
+//		Iterator iter1 = studentNumber.iterator();
+//		Collection totalNumber = data.values();
+//		Iterator iter2 = totalNumber.iterator();
+		int num =0;
+		int totalNum=0;
+		float persent=0;
+
+		ArrayList<String> write = new ArrayList<String>();		
+		/*
+		while(iter1.hasNext()) {
+			for(int i=Integer.parseInt(startyear);i<=Integer.parseInt(endyear);i++) {
+				for(int j =1 ; j<=4; j++) {
+					num = (int) iter1.next();
+					totalNum = (int) iter2.next();
+					//persent = (totalNum/num)*100;
+					//System.out.println(i + "," + j +","+ num+ ","+totalNum);
+					String line = new String();
+					line = i + "," + j + "," + coursecode + ","+num +","+ totalNum +",";//+ persent +"%";
+					System.out.println(line);
+					write.add(line);
+				}
+			}
+		}
+		*/
+		
+		for(Persent test : data) {
+			String line = new String();
+			float p =0;
+			
+			if(test.getstudentNumber().equals("0")==false && test.gettotalNumber().equals("0")==false ) {
+				System.out.println("ok" + test.getstudentNumber() +"," +test.gettotalNumber());
+				p = (float)(Integer.parseInt(test.getstudentNumber())) 
+					/(float)(Integer.parseInt(test.gettotalNumber()))
+					*100;
+			}
+
+			line = test.getyearTaken() + "," 
+					+test.getSemesterCourseTaken() + ","
+					+ test.getcourseCode()+","
+					+test.getcourseName()+","
+					+test.gettotalNumber()+","
+					+test.getstudentNumber()+","
+					+String.format("%.1f",p) + "%";			
+					System.out.println(line);
+			write.add(line);
+					
+		}
+
+
+		
+		return write; // do not forget to return a proper variable.
 	}
 	
 	private boolean parseOptions(Options options, String[] args) {
